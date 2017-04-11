@@ -10,7 +10,7 @@ Web-ohjelmoinnin harjoitustyö keväällä 2015.
 Tekijät:
 
 * Ryhmä webbikura
-    * Harry-Pekka Laakso, 205146
+    * Harry-Pekka Laakso
 
 
 Tämä harjoitustyö on ajossa Herokussa osoitteessa:

@@ -1,0 +1,20 @@
+#tamplr-logo {
+  font-family: 'Bree Serif', serif;
+  color: violet ;
+}
+
+#tamplr-logo:after {
+  content: ".";
+  position: relative;
+  right: 0.1em;
+}
+
+#user {
+	margin-right: 10px;
+	position: relative;
+}
+
+.info {
+	font-style: italic;
+}
+

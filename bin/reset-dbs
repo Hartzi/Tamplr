@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+var models = require("../models");
+
+models.sequelize.sync({force: true}).then(function () {
+  console.log("Databases forcefully synced. They are now empty.");
+  process.exit(0);
+});

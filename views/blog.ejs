@@ -1,0 +1,92 @@
+<% include head %>
+<div class="jumbotron">
+  <div class="container">
+    <h1>
+      <%= blog.name %>
+    </h1>
+    <% if(user) { %>
+      <% if(priviledges === false) { %>
+        <% if(follower === false) { %>
+        <form role="form" action="/blog/<%= blog.id %>/follow" method="POST">
+          <button type="submit" class="btn btn-primary" href="#" role="button">Seuraa Blogia</button>
+        </form>
+        <% } %>
+
+        <% if(follower === true) { %>
+        <form role="form" action="/blog/<%= blog.id %>/unfollow" method="POST">
+          <button type="submit" class="btn btn-primary" href="#" role="button">Lopeta seuraaminen</button>
+        </form>
+        <% } %>
+
+      <% } %>
+      <% if(priviledges === true) { %>
+        <a class="btn btn-primary" href="/blog/<%= blog.id %>/post" role="button">Luo uusi kirjoitus &raquo;</a>
+        <% if(blog.defaultBlog === false) { %>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
+          Asetukset
+        </button>
+        <p />
+        <div class="collapse" id="settings">
+          <div class="well">
+            <h2>
+              Muokkaa kirjoitusoikeuksia
+            </h2>
+          <form role="form" action="/blog/<%= blog.id %>/settings" method="POST">
+            <div class="form-group">
+              <label for="username">Käyttäjätunnus:</label>
+              <input name="addUsername" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Lisää kirjoitusoikeus</button>
+          </form>
+          <hr>
+          <form role="form" action="/blog/<%= blog.id %>/settings" method="POST">
+            <div class="form-group">
+              <label for="username">Käyttäjätunnus:</label>
+              <input name="removeUsername" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-danger">Poista kirjoitusoikeus</button>
+          </form>
+          </div>
+        </div>
+
+        <% } %>
+      <% } %>
+    <% } %>
+    <% if(status!=="") { %>
+      <p id="form-status">
+        <%= status %>
+      </p>
+    <% } %>
+  </div>
+</div>
+
+<div class="container">
+
+  <% for(var i=posts.length-1; i>=0; i--) {%>
+  <% var p = posts[i]; %>
+
+  <div class="row">
+
+    <h2>
+      <%= p.title %>
+    </h2>
+    <div class="well">
+      <%= p.text %>
+    </div>
+    <p>
+      <b><%= "Kirjoittanut: " %></b> 
+      <%= p.author  %> 
+      <b><%= "  Tykkäyksiä: " %></b> 
+      <%= p.likes %>
+      <b><%= "  Kommentteja: " %></b>
+      <%= p.comments %>
+    </p>
+
+    <p><a class="btn btn-default" href="/blogpost/<%=p.id %>" role="button">Lue Blogikirjoitus &raquo;</a></p>
+    <hr>
+  </div>
+  <% } %>
+
+  <% include footer %>
+</div>
+<% include ending %>

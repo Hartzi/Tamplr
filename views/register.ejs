@@ -1,0 +1,48 @@
+<% include head %>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>
+      Asetukset
+    </h1>
+    <p>
+      Tässä voit rekisteröityä
+    </p>
+
+    <% if(status !== "") { %>
+      <p id="form-status">
+        <%= status %>
+      </p>
+    <% } %>
+
+  </div>
+</div>
+<div class="container">
+
+  <form role="form" name="update_info" action="/register" method="POST">
+    <div class="form-group">
+      <label for="name">Nimi:</label>
+      <input name="name" class="form-control" value="<%= userInfo.name %>">
+    </div>
+    <div class="form-group">
+      <label for="username">Käyttäjätunnus:</label>
+      <input name="username" class="form-control" value="<%= userInfo.username %>">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Salasana:</label>
+      <input type="password" class="form-control" id="pwd" name="password">
+      <label for="pwd">Salasana uudelleen:</label>
+      <input type="password" class="form-control" id="pwd" name="password2">
+    </div>
+    <button type="submit" class="btn btn-default">Rekisteröidy</button>
+  </form>
+
+</div>
+
+<div class="container">
+
+  <div class="row">
+  </div>
+  <% include footer %>
+</div>
+<% include ending %>

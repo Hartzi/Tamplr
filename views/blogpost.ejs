@@ -1,0 +1,138 @@
+<% include head %>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>
+      <%= post.title %>
+    </h1>
+    <p><a href="/blog/<%= post.parentBlogId %>"><%= post.parentBlogName %></a></p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="well">
+      <%= post.text %>
+    </div>
+    <p>
+      <b><%= "Kirjoittanut: " %></b> 
+      <%= post.author  %> 
+      <b><%= "  Tykkäyksiä: " %></b> 
+      <%= post.likes %>
+    </p>
+
+  </div>
+  <div class="row">
+    <% if(user) { %>
+      <hr>
+      <% if(liked === false ) { %>
+        <form role="form" action="/blogpost/<%= post.id %>/like" method="POST">
+          <button type="submit" class="btn btn-success">
+            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Tykkää</button>
+        </form>
+      <% } %>
+      <% if(liked === true ) { %>
+        <form role="form" action="/blogpost/<%= post.id %>/unlike" method="POST">
+          <button type="submit" class="btn btn-warning">
+            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Lopeta tykkääminen</button>
+        </form>
+      <% } %>
+      <p>
+      </p>
+    <% } %>
+  </div>
+
+  <div class="row">
+    <hr>
+    <h3>
+      Kommentit
+    </h3>
+
+    <% if(comments.length === 0) { %>
+    <p class="info">
+      Ei kommentteja
+    </p>
+    <% } %>
+  </div>
+
+  <div id="comments">
+    <% for(var i=0; i<comments.length; ++i) {%>
+      <% var c = comments[i]; %>
+      <div class="row">
+        <div class="well well-sm">
+          <p>
+            <%= c.text %>
+          </p>
+          <p class="info">
+            <%= "-" + c.author %>
+          </p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <% if(user) { %>
+  <hr>
+  <div class="well">
+    <form id="addComment" role="form" action="/blogpost/<%= post.id %>/comment" method="POST">
+      <div class="form-group">
+        <label for="commentText">Kommentti:</label>
+        <textarea id="commentText" name="comment" class="form-control"></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Lisää kommentti</button>
+    </form>
+  </div>
+
+  <label>
+    <input id="refresh" type="checkbox" onclick=""> Lataa uudet kommentit automaattisesti 15 sekunnin välein
+  </label>
+  <% } %>
+
+  <% include footer %>
+</div>
+
+<script>
+
+  var timer = null, 
+    interval = 15000; // millisekuntteja
+
+  // Hienostellaan sen verran ettei kommenttien automaattinen päivitys sotke uuden kommentin kirjoittamista.
+  $("#addComment").submit(function(e) {
+    
+    if(timer !== null) {
+      e.preventDefault();
+      $("#addComment").submit(function(){
+        $.ajax({
+          url: $('#addComment').attr('action'),
+          type: "POST",
+          data : $('#addComment').serialize(),
+          success: function(){
+            $('#commentText').val('');
+            $('#comments').load(document.URL +  ' #comments');
+          }
+        });
+        return false;
+      });
+    }
+  });
+
+  // Kommenttien automaattisen lataamisen suorittava toiminnallisuus
+  $('#refresh').click(function() {
+
+    if($("#refresh").prop('checked')) {
+
+      timer = setInterval(function () {
+        $('#comments').load(document.URL +  ' #comments');
+      }, interval);
+    }
+    else {
+      clearInterval(timer);
+      timer = null;
+    }
+  });
+
+</script>
+
+<% include ending %>

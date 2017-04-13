@@ -1,0 +1,58 @@
+<% include head %>
+
+<% if(priviledges === false ) { %>
+  <div class="jumbotron">
+    <div class="container">
+      <h1>
+          <%= status %>
+      </h1>
+      <p>
+        Sitä paitsi tuollainen osoiterivikikkailu on syntiä >:(
+      </p>
+    </div>
+  </div>
+<% } %>
+
+<% if(priviledges === true ) { %>
+  <div class="jumbotron">
+    <div class="container">
+      <h1>
+        Luo uusi blogikirjoitus
+      </h1>
+      <p>
+        Tässä voit luoda uuden blogikirjoituksen
+      </p>
+      <p>
+        <a class="btn btn-primary" href="/blog/<%= blog.id %>" role="button">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Takaisin blogiin
+        </a>
+      </p>
+
+      <% if(status!=="") { %>
+        <p id="form-status">
+          <%= status %>
+        </p>
+      <% } %>
+
+    </div>
+  </div>
+
+  <div class="container">
+    <form role="form" action="/blog/<%= blog.id %>/post" method="POST">
+      <div class="form-group">
+        <label for="title">Otsikko:</label>
+        <input name="title" class="form-control" value="<%= post.title %>">
+      </div>
+      <div class="form-group">
+        <label for="text">Teksti:</label>
+        <textarea name="text" class="form-control"><%= post.text %></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Luo</button>
+    </form>
+  </div>
+<% } %>
+<div class="container">
+
+  <% include footer %>
+</div>
+<% include ending %>

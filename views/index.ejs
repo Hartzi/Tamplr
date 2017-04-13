@@ -1,0 +1,99 @@
+<% include head %>
+
+<div class="jumbotron">
+  <div class="container">
+    <% if(user) { %>
+    <h1>
+      Tervetuloa, <%= user %>!
+    </h1>
+    <p>
+      Tervetuloa käyttämään tamplr blogipalvelua. Voit käyttää tamplria sujuvasti myös mobiililaitteellasi.
+    </p>
+    <a class="btn btn-primary" href="/createblog" role="button">Luo uusi blogi &raquo;</a>
+    <% } %>
+    <% if(!user) { %>
+    <h1>
+      Tervetuloa!
+    </h1>
+    <p>
+      Tervetuloa käyttämään tamplr blogipalvelua. Ole hyvä ja rekisteröidy! Voit luoda uusia blogeja ja blogikirjoituksia.
+    </p>
+    <% } %>
+  </div>
+</div>
+
+<div class="container">
+
+  <% if(user) { %>
+  <div class="row">
+    <div class="col-md-4">
+      <h1>
+        Omat Blogit
+      </h1>
+      <ul>
+      <% for(var i=0; i<authoredBlogs.length; i++) {%>
+        <% var b = authoredBlogs[i]; %>
+        <li>
+          <a href="/blog/<%= b.id %>">
+            <%= b.name %>
+          </a>
+        </li>
+      <% } %>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <h1>
+        Seuratut Blogit
+      </h1>
+      <% if(followedBlogs.length === 0) { %>
+      <p class="info">
+        Ei seurattuja blogeja
+      </p>
+      <% } %>
+      <ul>
+      <% for(var i=0; i<followedBlogs.length; i++) {%>
+        <% var b = followedBlogs[i]; %>
+        <li>
+          <a href="/blog/<%= b.id %>">
+            <%= b.name %>
+          </a>
+        </li>
+      <% } %>
+      </ul>
+    </div>
+  </div>
+  <% } %>
+  
+  <% if(posts.length > 0) { %>
+  <hr>
+  <h1>
+    Uusimmat blogikirjoitukset
+  </h1>
+  <% } %>
+  <% if(posts.length === 0) { %>
+  <p class="info">
+    Ei vielä blogikirjoituksia
+  </p>
+  <% } %>
+
+  <div class="row">
+    <% for(var i=shownPosts.length-1; i>=0; i--) {%>
+    <% var p = shownPosts[i]; %>
+    <div class="col-md-4">
+      <h2>
+        <%= p.title %>
+      </h2>
+      <p>
+        <%= "Kirjoittanut: " + p.author %>
+      </p>
+      <p class="info">
+        <%= "BLogista: " + p.parentBlogName %>
+      </p>
+      <p><a class="btn btn-default" href="/blogpost/<%=p.id %>" role="button">Lue Blogikirjoitus &raquo;</a></p>
+    </div>
+    <% } %>
+  </div>
+
+  <% include footer %>
+</div>
+<% include ending %>
